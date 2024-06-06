@@ -7,6 +7,10 @@ use App\Http\Controllers\QuestionController;
 
 
 Route::get('/', function () {
+    if(app()->isLocal()) {
+        auth()->loginUsingId(1);
+        return to_route('dashboard');
+    }
     return view('welcome');
 });
 
