@@ -6,6 +6,7 @@ use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseCount;
 
 
+
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
 
@@ -36,6 +37,19 @@ it("should check if ends with question marks ?", function () {
 
 });
 
-it("should have at least 10 characters", function () {
+it("should have at least 10 characters", closure: function () {
+    // Arrange :: preparar
 
+    $user = User::factory()->create();
+    actingAs($user);
+
+    // Act :: agir
+    $response = $this->post(route("question.store"), [
+        "question" => str_repeat('*', 8) . '?',
+    ]);
+
+
+    // Assert :: verificar
+    $response->assertSessionHasErrors(['question' => __('validation.min.string', ['min' => 10, 'attribute' => 'question'])]);
+    $this->assertDatabaseCount('questions', 0);
 });
