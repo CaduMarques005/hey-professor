@@ -1,7 +1,6 @@
 @props([
     'label',
     'name',
-
 ])
 
 
