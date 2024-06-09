@@ -8,13 +8,16 @@ use App\Models\Vote;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class LikeController extends Controller
 {
     public function __invoke(Question $question): RedirectResponse
     {
+        /* @var User $user*/
 
-        auth()->user()->like($question);
+        $user = Auth::user();
+        user()->like($question);
 
 
 

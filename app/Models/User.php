@@ -46,6 +46,10 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    /**
+     * @return HasMany(Vote)
+     */
+
     public function votes(): HasMany
     {
     return $this->hasMany(Vote::class);
@@ -53,8 +57,10 @@ class User extends Authenticatable
 
     public function like(Question $question): void
     {
-       $this->votes()->create([
-            'question_id' => $question->id,
+       $this->votes()->updateOrCreate([
+           'question_id' => $question->id,
+       ],
+           [
             'like' => 1,
             'unlike' => 0,
         ]);
