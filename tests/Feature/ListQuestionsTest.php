@@ -1,8 +1,9 @@
 <?php
 
-use function Pest\Laravel\get;
 use App\Models\Question;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+
+use function Pest\Laravel\get;
 
 uses(RefreshDatabase::class);
 
@@ -12,7 +13,6 @@ it('should list all the questions', function () {
 
     $questions = Question::factory()->count(5)->create();
     \Pest\Laravel\actingAs($user);
-
 
     $response = get(route('dashboard'));
 

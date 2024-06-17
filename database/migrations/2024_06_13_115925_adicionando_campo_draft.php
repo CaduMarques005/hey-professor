@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('questions', function (Blueprint $table) {
-            $table->id();
-            $table->text('question');
-            $table->boolean('draft')->default(false);
-            $table->timestamps();
+        Schema::table('questions', function (Blueprint $table) {
+            $table->boolean('draft')->default(0);
         });
-
     }
 
     /**
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('question', function (Blueprint $table) {
+            $table->dropColumn('draft');
+        });
     }
 };
