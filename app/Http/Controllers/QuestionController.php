@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Question;
-use http\Env\Request;
 use Illuminate\Http\RedirectResponse;
 
 class QuestionController extends Controller

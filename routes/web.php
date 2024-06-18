@@ -6,6 +6,7 @@ use App\Http\Controllers\Question\LikeController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\UnlikeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Question\PublishController;
 
 Route::get('/', function () {
     if (app()->isLocal()) {
@@ -26,6 +27,8 @@ Route::post('/question/vote', [LikeController::class])->name('');
 Route::post('/question/like/{question}', [LikeController::class, 'like'])->name('question.like');
 
 Route::post('/question/unlike/{question}', [UnlikeController::class, 'unlike'])->name('question.unlike');
+
+Route::put('/question/publish/{question}', [PublishController::class, 'publish'])->name('question.publish');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
