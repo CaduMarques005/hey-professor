@@ -1,0 +1,4 @@
+echo 'INTEGRANDO PINT'
+./vendor/bin/pint
+echo 'FAZENDO TESTS'
+php artisan test --dirty

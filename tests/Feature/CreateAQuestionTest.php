@@ -3,6 +3,7 @@
 use App\Models\User;
 
 use function Pest\Laravel\actingAs;
+use function Pest\Laravel\post;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
@@ -32,13 +33,19 @@ it('should create as a draft all the time', function () {
     $user = User::factory()->create();
     actingAs($user);
 
-    // Assert :: verificar
+    // ACT :: Agir
+    $response = $this->post(route('question.store'), [
+        'question' => str_repeat('*', 260).'?',
+        'draft' => true
+    ]);
 
-    $this->assertDatabaseHas('questions',
-        ['question' => str_repeat('*', 260).'?',
-            'draft' => true,
-        ]);
+    // Assert :: Verificar
+    $this->assertDatabaseHas('questions', [
+        'question' => str_repeat('*', 260).'?',
+        'draft' => true,
+    ]);
 });
+
 
 it('should check if ends with question marks ?', function () {
 
