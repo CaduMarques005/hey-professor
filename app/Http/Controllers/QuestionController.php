@@ -7,6 +7,13 @@ use Illuminate\Http\RedirectResponse;
 
 class QuestionController extends Controller
 {
+
+    public function index()
+    {
+        return view('question.index', [
+            'questions' => user()->questions
+            ]);
+    }
     public function store(\Illuminate\Http\Request $request): RedirectResponse
     {
 
@@ -21,9 +28,10 @@ class QuestionController extends Controller
         Question::query()->create([
             'question' => request()->question,
             'draft' => true,
+            'created_by' => auth()->id(),
         ]);
 
-        return to_route('dashboard');
+        return back();
 
     }
 }

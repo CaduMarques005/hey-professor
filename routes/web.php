@@ -20,29 +20,27 @@ Route::get('/', function () {
 
 Route::get('/dashboard', DashboardController::class)->middleware(['auth', 'verified'])->name('dashboard');
 
-
 Route::middleware('auth')->group(function () {
 
-    #Region Question Routes
+    //Region question Routes
 
+    Route::get('/question', [QuestionController::class, 'index'])->name('question.index');
     Route::post('/question/store', [QuestionController::class, 'store'])->name('question.store');
     Route::post('/question/vote', [LikeController::class])->name('');
     Route::post('/question/like/{question}', [LikeController::class, 'like'])->name('question.like');
     Route::post('/question/unlike/{question}', [UnlikeController::class, 'unlike'])->name('question.unlike');
     Route::put('/question/publish/{question}', [PublishController::class, 'publish'])->name('question.publish');
 
-    #EndRegion
+    //EndRegion
 
-
-    #Region Profile Routes
+    //Region Profile Routes
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    #endRegion
+    //endRegion
 });
-
 
 Route::middleware('auth')->group(function () {
 
