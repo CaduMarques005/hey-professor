@@ -1,6 +1,8 @@
 <?php
-use App\Models\User;
+
 use App\Models\Question;
+use App\Models\User;
+
 use function Pest\Laravel\actingAs;
 
 it('should be able to destroy a question', function () {
