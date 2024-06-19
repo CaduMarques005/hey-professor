@@ -7,13 +7,13 @@ use Illuminate\Http\RedirectResponse;
 
 class QuestionController extends Controller
 {
-
     public function index()
     {
         return view('question.index', [
-            'questions' => user()->questions
-            ]);
+            'questions' => user()->questions,
+        ]);
     }
+
     public function store(\Illuminate\Http\Request $request): RedirectResponse
     {
 
@@ -33,5 +33,13 @@ class QuestionController extends Controller
 
         return back();
 
+    }
+
+    public function destroy(Question $question)
+    {
+        $this->authorize('destroy', $question);
+
+        $question->delete();
+        return back();
     }
 }

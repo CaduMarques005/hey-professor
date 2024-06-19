@@ -1,8 +1,9 @@
 <?php
-use App\Models\User;
-use App\Models\Question;
-use function Pest\Laravel\get;
 
+use App\Models\Question;
+use App\Models\User;
+
+use function Pest\Laravel\get;
 
 it('should be able to list all questions created by me', function () {
 
@@ -13,9 +14,7 @@ it('should be able to list all questions created by me', function () {
         ->count(10)
         ->create();
 
-
     $user = User::factory()->create();
-
 
     $question = Question::factory()
         ->for($user, 'createdBy')
@@ -26,15 +25,12 @@ it('should be able to list all questions created by me', function () {
 
     $response = get(route('question.index'));
 
-
-    /**@var  Question $q */
-
+    /** @var Question $q */
     foreach ($question as $q) {
         $response->assertSee($q->question);
     }
 
-    /**@var  Question $q */
-
+    /** @var Question $q */
     foreach ($wrongQuestions as $q) {
         $response->assertDontSee($q->question);
     }

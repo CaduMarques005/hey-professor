@@ -25,16 +25,82 @@
             {{-- Listagem --}}
 
             <div class="dark:text-gray-400 uppercase font-bold">
+                drafts
+            </div>
+
+
+            <div class="dark:text-gray-400 space-y-4">
+                <x-table>
+                    <x-thead>
+                        <tr>
+
+                            <x-th>Question</x-th>
+                            <x-th>Actions</x-th>
+
+                        </tr>
+                    </x-thead>
+                    <tbody>
+                        @foreach($questions->where('draft', true) as $question)
+                            <x-tr>
+                                <x-td>{{$question->question}}</x-td>
+                                <x-td>
+
+                                    <x-form :action="route('question.destroy', $question)" delete>
+
+                                        <x-btn.primary type="submit">
+                                            Deletar
+                                        </x-btn.primary>
+
+                                    </x-form>
+
+                                    <x-form :action="route('question.publish', $question)" put>
+
+                                        <x-btn.primary type="submit">
+                                            Publicar
+                                        </x-btn.primary>
+
+                                    </x-form>
+
+                                </x-td>
+                            </x-tr>
+                        @endforeach
+                    </tbody>
+                </x-table>
+            </div>
+
+            <hr class="border-gray-700 border-dashed my-4">
+
+            {{-- Listagem --}}
+
+            <div class="dark:text-gray-400 uppercase font-bold">
                 My Questions
             </div>
 
 
             <div class="dark:text-gray-400 space-y-4">
-                @foreach($questions as $item)
-                    <x-question :question="$item" />
+                <x-table>
+                    <x-thead>
+                        <tr>
+
+                            <x-th>Question</x-th>
+                            <x-th>Actions</x-th>
+
+                        </tr>
+                    </x-thead>
+                    <tbody>
+                    @foreach($questions->where('draft', false) as $question)
+                        <x-tr>
+                            <x-td>{{$question->question}}</x-td>
+                            <x-td>
+                                //botao de deletar
 
 
-                @endforeach
+
+                            </x-td>
+                        </x-tr>
+                    @endforeach
+                    </tbody>
+                </x-table>
             </div>
         </div>
     </div>
