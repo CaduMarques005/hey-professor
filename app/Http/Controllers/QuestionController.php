@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Question;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class QuestionController extends Controller
 {
@@ -35,9 +36,9 @@ class QuestionController extends Controller
 
     }
 
-    public function edit(Question $question)
+    public function edit(Question $question): View
     {
-        return view('question.edit', $question);
+        return view('question.edit', compact('question')); // mesma coisa que ['question' => $question]
     }
 
     public function destroy(Question $question)
