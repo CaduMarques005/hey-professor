@@ -3,6 +3,7 @@
 use App\Models\User;
 
 use function Pest\Laravel\actingAs;
+use function Pest\Laravel\post;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
@@ -63,4 +64,10 @@ it('should have at least 10 characters', closure: function () {
     // Assert :: verificar
     $response->assertSessionHasErrors(['question' => __('validation.min.string', ['min' => 10, 'attribute' => 'question'])]);
     $this->assertDatabaseCount('questions', 0);
+});
+
+test('only authenticated users can create a new question', function () {
+    post(route('question.store'), [
+        'question' => str_repeat('*', 8) .'?',
+    ])->assertRedirect('login');
 });

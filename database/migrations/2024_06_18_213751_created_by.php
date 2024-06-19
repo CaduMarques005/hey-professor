@@ -12,14 +12,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('questions', function (Blueprint $table) {
-            $table->id();
+        Schema::table('questions', function (Blueprint $table) {
             $table->foreignIdFor(User::class, 'created_by');
-            $table->text('question');
-            $table->boolean('draft')->default(false);
-            $table->timestamps();
         });
-
     }
 
     /**
@@ -27,6 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('questions', function (Blueprint $table) {
+            $table->dropForeign(['created_by']); // Remove a constraint da chave estrangeira
+            $table->dropColumn('created_by');    // Remove a coluna 'created_by'
+        });
     }
 };
