@@ -1,8 +1,9 @@
 <?php
-use function Pest\Laravel\actingAs;
-use function Pest\Laravel\get;
+
 use App\Models\Question;
 use App\Models\User;
+
+use function Pest\Laravel\actingAs;
 use function Pest\Laravel\put;
 
 it('should be able to update a question', function () {
@@ -12,7 +13,7 @@ it('should be able to update a question', function () {
 
     actingAs($user);
 
-    put(route('question.update', $question),[
+    put(route('question.update', $question), [
         'question' => 'updated question?',
     ])->assertRedirect();
 
@@ -20,4 +21,23 @@ it('should be able to update a question', function () {
 
     expect($question)
         ->question->toBe('updated question?');
+});
+
+
+
+
+it('should make sure that only the person who has created a question can edit the question', function () {
+    $rightUser = User::factory()->create();
+    $wrongUser = User::factory()->create();
+    $question = Question::factory()->create(['draft' => false, 'created_by' => $rightUser]);
+    actingAs($wrongUser);
+
+    get(route('question.edit', $question))
+        ->assertForbidden()();
+
+    actingAs($rightUser);
+
+    get(route('question.edit', $question))
+        ->assertSucessful();
+
 });
