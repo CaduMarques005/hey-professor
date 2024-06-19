@@ -9,6 +9,7 @@
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
+        "laravel/telescope": "^5.0",
         "laravel/tinker": "^2.8"
     },
     "require-dev": {
@@ -28,7 +29,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+            "files": [
+                "app/support/functions.php"
+            ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -36,6 +40,10 @@
         }
     },
     "scripts": {
+
+        "pint": [
+            "./vendor/bin/pint "
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"

@@ -2,26 +2,44 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Question;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Response;
-
 
 class QuestionController extends Controller
 {
-    public function store(): RedirectResponse
+    public function index()
+    {
+        return view('question.index', [
+            'questions' => user()->questions,
+        ]);
+    }
+
+    public function store(\Illuminate\Http\Request $request): RedirectResponse
     {
 
+        $request->validate([
+            'question' => ['required', 'min:10', function (string $attribute, mixed $value, \Closure $fail) {
+                if ($value[strlen($value) - 1] != '?') {
+                    $fail('Are you sure that is a question? It is missing the question mark in the end');
+                }
+            }],
+        ]);
+        user()->questions();
+        Question::query()->create([
+            'question' => request()->question,
+            'draft' => true,
+            'created_by' => auth()->id(),
+        ]);
 
-           $attributes = request()->validate([
-               'question' => ['required', 'min:10']
-           ]);
+        return back();
 
-           Question::query()->create($attributes);
+    }
 
+    public function destroy(Question $question)
+    {
+        $this->authorize('destroy', $question);
 
-    return to_route('dashboard');
-
+        $question->delete();
+        return back();
     }
 }

@@ -20,5 +20,4 @@ class DatabaseSeeder extends Seeder
         Question::factory()->count(10)->create();
 
     }
-
 }
