@@ -50,7 +50,6 @@ it('should make sure that only the person who has created a question can edit th
     \Pest\Laravel\get(route('question.edit', $question))
         ->assertForbidden();
 
-
     actingAs($rightUser);
 
     \Pest\Laravel\get(route('question.edit', $question))
