@@ -5,12 +5,11 @@ use App\Models\User;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
-use function Pest\Laravel\put;
 
 it('should be able to open a question to edit', function () {
     $user = User::factory()->create();
 
-    $question = Question::factory()->for($user, 'createdBy')->create();
+    $question = Question::factory()->for($user, 'createdBy')->create(['draft' => true]);
 
     actingAs($user);
 
@@ -21,7 +20,7 @@ it('should be able to open a question to edit', function () {
 it('should return a view', function () {
     $user = User::factory()->create();
 
-    $question = Question::factory()->for($user, 'createdBy')->create();
+    $question = Question::factory()->for($user, 'createdBy')->create(['draft' => true]);
 
     actingAs($user);
 
@@ -39,4 +38,22 @@ it('should make sure that only question with status DRAFT can be edited', functi
 
     get(route('question.edit', $questionNotDraft))->assertForbidden();
     get(route('question.edit', $draftQuestion))->assertSuccessful();
+});
+
+it('should make sure that only the person who has created a question can edit the question', function () {
+    $rightUser = User::factory()->create();
+    $wrongUser = User::factory()->create();
+    $question = Question::factory()->create(['draft' => true, 'created_by' => $rightUser]);
+
+    actingAs($wrongUser);
+
+    \Pest\Laravel\get(route('question.edit', $question))
+        ->assertForbidden();
+
+
+    actingAs($rightUser);
+
+    \Pest\Laravel\get(route('question.edit', $question))
+        ->assertSuccessful();
+
 });
