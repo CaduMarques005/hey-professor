@@ -40,32 +40,27 @@ it('should paginate the results', function () {
 it('should order by like and unlike, most liked question should be at the top, most unliked question must be on the bottom', function () {
     $user = User::factory()->create();
     $secondUser = User::factory()->create();
-   $questions =  Question::factory()->count(20)->create();
-   $mostLikedQuestions = Question::find(3);
-   $mostUnlikedQuestions = Question::find(1);
+    $questions = Question::factory()->count(20)->create();
+    $mostLikedQuestions = Question::find(3);
+    $mostUnlikedQuestions = Question::find(1);
 
-   $user->like($mostLikedQuestions);
-   $secondUser->unlike($mostUnlikedQuestions);
+    $user->like($mostLikedQuestions);
+    $secondUser->unlike($mostUnlikedQuestions);
 
-   \Pest\Laravel\withoutExceptionHandling();
+    \Pest\Laravel\withoutExceptionHandling();
 
     actingAs($user);
     get(route('dashboard', $questions))
-    ->assertViewHas('questions', function ($questions)  {
+        ->assertViewHas('questions', function ($questions) {
 
-        expect($questions)
-            ->first()->id
-            ->toBe(3)
-        ->and($questions)
-        ->last()->id()->toBe(1);
+            expect($questions)
+                ->first()->id
+                ->toBe(3)
+                ->and($questions)
+                ->last()->id()->toBe(1);
 
-        return true;
+            return true;
 
-
-
-
-
-    });
-
+        });
 
 });
