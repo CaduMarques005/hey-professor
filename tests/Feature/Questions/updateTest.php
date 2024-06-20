@@ -51,12 +51,11 @@ it('should update the question in the database', function () {
         'question' => 'updated question?',
     ])->assertRedirect(route('question.index'));
 
-        $question->refresh();
+    $question->refresh();
 
-        expect($question)
-            ->question->toBe('updated question?');
+    expect($question)
+        ->question->toBe('updated question?');
 });
-
 
 it('should make sure that only question with status DRAFT can be updated', function () {
     $user = User::factory()->create();
@@ -70,8 +69,6 @@ it('should make sure that only question with status DRAFT can be updated', funct
     put(route('question.edit', $draftQuestion), ['question' => 'New Question'])->assertRedirect();
 });
 
-
-
 it('should make sure that only the person who has created the question can update the question', function () {
 
     $rightUser = User::factory()->create();
@@ -82,10 +79,8 @@ it('should make sure that only the person who has created the question can updat
     put(route('question.update', $question))->assertForbidden();
 
     actingAs($rightUser);
-    put(route('question.update', $question),['question' => 'New Question'])->assertRedirect();
+    put(route('question.update', $question), ['question' => 'New Question'])->assertRedirect();
 });
-
-
 
 it('should be able to update a new question bigger than 255 characters', function () {
     // Arrange :: preparar
@@ -94,7 +89,7 @@ it('should be able to update a new question bigger than 255 characters', functio
     actingAs($user);
 
     // Act :: agir
-    $response = $this->put(route('question.update' , $question), [
+    $response = $this->put(route('question.update', $question), [
         'question' => str_repeat('*', 260).'?',
     ]);
 
@@ -103,9 +98,6 @@ it('should be able to update a new question bigger than 255 characters', functio
     $this->assertDatabaseCount('questions', 1);
     $this->assertDatabaseHas('questions', ['question' => str_repeat('*', 260).'?']);
 });
-
-
-
 
 it('should have at least 10 characters', closure: function () {
     // Arrange :: preparar
@@ -128,4 +120,3 @@ test('only authenticated users can create a new question', function () {
         'question' => str_repeat('*', 8).'?',
     ])->assertRedirect('login');
 });
-

@@ -19,6 +19,12 @@
 
 
                 @endforeach
+
+
             </div>
+<div class="flex mx-auto justify-around">
+    {{ $questions->links() }}
+</div>
+
 
 </x-app-layout>

@@ -45,7 +45,7 @@ class QuestionController extends Controller
 
     public function update(Question $question)
     {
-    $this->authorize('update', $question);
+        $this->authorize('update', $question);
         $question->question = request()->question;
         $question->save();
 

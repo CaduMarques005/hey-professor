@@ -46,8 +46,6 @@ it('should create as a draft all the time', function () {
     ]);
 });
 
-
-
 it('should have at least 10 characters', closure: function () {
     // Arrange :: preparar
 
