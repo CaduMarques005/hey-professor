@@ -45,10 +45,11 @@ class QuestionController extends Controller
 
     public function update(Question $question)
     {
+    $this->authorize('update', $question);
         $question->question = request()->question;
         $question->save();
 
-        return back();
+        return to_route('question.index');
     }
 
     public function destroy(Question $question)
