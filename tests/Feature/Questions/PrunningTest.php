@@ -1,6 +1,6 @@
 <?php
 
-it('should prune records deleted more than 1 month', function() {
+it('should prune records deleted more than 1 month', function () {
 
     $question = \App\Models\Question::factory()->create(['deleted_at' => \Carbon\Carbon::now()->subMonth(2)]);
 
