@@ -4,6 +4,7 @@ use App\Models\User;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\post;
+use App\Models\Question;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
@@ -46,10 +47,6 @@ it('should create as a draft all the time', function () {
     ]);
 });
 
-it('should check if ends with question marks ?', function () {
-
-});
-
 it('should have at least 10 characters', closure: function () {
     // Arrange :: preparar
 
@@ -70,4 +67,17 @@ test('only authenticated users can create a new question', function () {
     post(route('question.store'), [
         'question' => str_repeat('*', 8).'?',
     ])->assertRedirect('login');
+});
+
+it('question should be unique', function () {
+
+    $user = User::factory()->create();
+    actingAs($user);
+
+    Question::factory()->create(['question' => 'alguma pergunta?']);
+
+
+    \Pest\Laravel\post(route('question.store'), [
+        'question' => 'alguma pergunta?',
+    ])->assertSessionHasErrors(['question' => 'Pergunta já existe!']);
 });

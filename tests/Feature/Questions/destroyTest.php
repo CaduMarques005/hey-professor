@@ -1,7 +1,10 @@
 <?php
-use App\Models\User;
+
 use App\Models\Question;
+use App\Models\User;
+
 use function Pest\Laravel\actingAs;
+use function Pest\Laravel\assertSoftDeleted;
 
 it('should be able to destroy a question', function () {
 
@@ -13,13 +16,14 @@ it('should be able to destroy a question', function () {
 
     actingAs($user);
 
-    \Pest\Laravel\delete(route('question.destroy', $question))
+    \Pest\Laravel\put(route('question.archive', $question))
         ->assertRedirect();
 
-    $question->refresh();
+    assertSoftDeleted('questions', ['id' => $question->id]);
 
     expect($question)
-        ->draft->toBeFalse();
+        ->refresh()
+        ->deleted_at->not->toBeNull();
 });
 
 it('should make sure that only the person who has created a question can destroy the question', function () {

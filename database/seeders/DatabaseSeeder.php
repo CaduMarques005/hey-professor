@@ -13,8 +13,9 @@ class DatabaseSeeder extends Seeder
     {
 
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'Cadu Marques',
+            'email' => 'cadugoleiro12@gmail.com',
+            'password' => bcrypt('Cadu@2505'),
         ]);
 
         Question::factory()->count(10)->create();
