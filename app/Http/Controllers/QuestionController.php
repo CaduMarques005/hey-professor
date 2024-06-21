@@ -29,7 +29,6 @@ class QuestionController extends Controller
             new SameQuestionRule(),
         ]);
 
-
         user()->questions();
         Question::query()->create([
             'question' => request()->question,
