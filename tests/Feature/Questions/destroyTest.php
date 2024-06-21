@@ -2,8 +2,9 @@
 
 use App\Models\Question;
 use App\Models\User;
-use function Pest\Laravel\assertSoftDeleted;
+
 use function Pest\Laravel\actingAs;
+use function Pest\Laravel\assertSoftDeleted;
 
 it('should be able to destroy a question', function () {
 

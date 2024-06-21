@@ -54,9 +54,21 @@ class QuestionController extends Controller
 
     public function archive(Question $question)
     {
-            $this->authorize('archive', $question);
-            $question->delete();
-            return back();
+        $this->authorize('archive', $question);
+        $question->delete();
+
+        return back();
+    }
+
+    public function restore(int $id)
+    {
+        $question = Question::withTrashed()->find($id);
+
+        $this->authorize('restore', $question);
+
+        $question->restore();
+
+        return back();
     }
 
     public function destroy(Question $question)
