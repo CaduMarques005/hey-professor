@@ -23,7 +23,7 @@
 
             </div>
 <div class="flex mx-auto justify-around">
-    {{ $questions->links() }}
+    {{ $questions->withQueryString()->links() }}
 </div>
 
 
