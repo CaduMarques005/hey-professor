@@ -12,6 +12,7 @@ class QuestionController extends Controller
     {
         return view('question.index', [
             'questions' => user()->questions,
+            'archivedQuestions' => user()->questions()->onlyTrashed()->get(),
         ]);
     }
 
@@ -71,9 +72,10 @@ class QuestionController extends Controller
         return back();
     }
 
-    public function destroy(Question $question)
+    public function destroy($id)
     {
-        $this->authorize('delete', $question);
+        $question = Question::withTrashed()->find($id);
+        $this->authorize('destroy', $question);
 
         $question->forceDelete();
 
