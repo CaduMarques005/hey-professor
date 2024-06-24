@@ -1,10 +1,10 @@
 <?php
 
+use App\Models\Question;
 use App\Models\User;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\post;
-use App\Models\Question;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
@@ -75,7 +75,6 @@ it('question should be unique', function () {
     actingAs($user);
 
     Question::factory()->create(['question' => 'alguma pergunta?']);
-
 
     \Pest\Laravel\post(route('question.store'), [
         'question' => 'alguma pergunta?',

@@ -6,7 +6,11 @@ use App\Http\Controllers\Question\LikeController;
 use App\Http\Controllers\Question\PublishController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\UnlikeController;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 
 Route::get('/', function () {
     if (app()->isLocal()) {
@@ -46,8 +50,29 @@ Route::middleware('auth')->group(function () {
     //endRegion
 });
 
-Route::middleware('auth')->group(function () {
+// OAuth routes
+Route::get('github/auth/login', function () {
 
+    return Socialite::driver('github')->redirect();
+})->name('github.login');
+
+Route::get('github/auth/callback', function () {
+
+    $githubUser = Socialite::driver('github')->user();
+
+    $user = User::query()
+        ->updateOrCreate([
+            'email' => $githubUser->email,
+            'name' => $githubUser->name,
+        ], [
+            'name' => $githubUser->name,
+            'email' => $githubUser->email,
+            'password' => Hash::make('password'),
+        ]);
+
+    Auth::login($user);
+
+    return to_route('dashboard');
 });
 
 require __DIR__.'/auth.php';
