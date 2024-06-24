@@ -1,8 +1,8 @@
 <x-app-layout>
 
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Vote for a question') }}
+    <x-slot name="header" class="">
+        <h2 class=" font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">
+            {{ __('Vote for a question:') }}
         </h2>
     </x-slot>
 
