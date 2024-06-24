@@ -1,10 +1,9 @@
 <?php
 
-use App\Models\User;
 use App\Models\Question;
+
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
-
 
 it('should be able to search a question by text', function () {
 
@@ -15,9 +14,7 @@ it('should be able to search a question by text', function () {
 
     $response = get(route('dashboard', ['search' => 'question']));
 
-
-
-        $response->assertDontSee('Something else');
-        $response->assertSee('My question is?');
+    $response->assertDontSee('Something else');
+    $response->assertSee('My question is?');
 
 });

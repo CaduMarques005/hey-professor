@@ -7,6 +7,7 @@ use App\Http\Controllers\Question\PublishController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\UnlikeController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 
 Route::get('/', function () {
     if (app()->isLocal()) {
@@ -46,8 +47,17 @@ Route::middleware('auth')->group(function () {
     //endRegion
 });
 
-Route::middleware('auth')->group(function () {
+# OAuth routes
 
+Route::group('/auth' , function () {
+
+    Route::get('/redirect', function () {
+        return Socialite::driver('github')->redirect();
+    });
+
+    Route::get('/callback', function () {
+        $user = Socialite::driver('github')->user();
+    });
 });
 
 require __DIR__.'/auth.php';
